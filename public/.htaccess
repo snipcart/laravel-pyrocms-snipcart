@@ -1,0 +1,36 @@
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+
+    RewriteEngine On
+    
+    RewriteBase /
+
+    # Redirect Trailing Slashes...
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+    
+    # Redirect to non-www
+    #RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    #RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+    
+    # Redirect to www
+    #RewriteCond %{HTTP_HOST} !^www\.(.*)$ [NC]
+    #RewriteRule ^(.*)$ http://www.%1/$1 [R=301,L]
+    
+    # Force non-ssl
+    #RewriteCond %{HTTPS} on
+    #RewriteRule ^ http://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Force ssl
+    #RewriteCond %{HTTPS} off
+    #RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+    
+</IfModule>
