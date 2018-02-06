@@ -1,0 +1,20 @@
+{% extends 'theme::layouts/default' %}
+
+{% block content %}
+
+	{% set products = entries('products').paginate() %}
+<div class="row">
+	{% for product in products %}
+	  <div class="col-sm-4">
+		<div class="card" style="margin-bottom: 2rem;">
+		  {{ product.image.make.class("card-img-top").fit(300,300) | raw }}
+		  <div class="card-body">
+		    <h4 class="card-title">{{ product.name }}</h4>
+		    <p class="card-text">{{ product.description }}</p>
+		    <a href="#" class="btn btn-primary">Buy for {{ product.price.currency() }}</a>
+		  </div>
+		</div>
+	  </div>
+	{% endfor %}
+</div>
+{% endblock %}

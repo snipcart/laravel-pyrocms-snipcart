@@ -1,0 +1,9 @@
+{
+    "name": "snipcart/products-module",
+    "type": "streams-addon",
+    "autoload": {
+        "psr-4": {
+            "Snipcart\\ProductsModule\\": "src/"
+        }
+    }
+}
