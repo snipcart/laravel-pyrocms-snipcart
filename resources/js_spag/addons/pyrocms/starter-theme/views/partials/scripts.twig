@@ -1,0 +1,27 @@
+<!-- jQuery -->
+{{ asset_add("theme.js", "theme::js/vendor/jquery.js") }}
+
+<!-- Bootstrap Core JavaScript -->
+{{ asset_add("theme.js", "theme::js/bootstrap.js") }}
+
+<!-- Plugin JavaScript -->
+{{ asset_add("theme.js", "theme::js/classie.js") }}
+{{ asset_add("theme.js", "theme::js/cbpAnimatedHeader.js") }}
+
+<!-- Custom Theme JavaScript -->
+{{ asset_add("theme.js", "theme::js/freelancer.js") }}
+
+{{ asset_script("theme.js", ["min"]) }}
+
+<!-- After the theme.js assets -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+<script src="https://cdn.snipcart.com/scripts/2.0/snipcart.js" id="snipcart" data-api-key="{{ setting_value('snipcart.module.products::api_key') }}"></script>
+
+<link href="https://cdn.snipcart.com/themes/2.0/base/snipcart.min.css" type="text/css" rel="stylesheet" />
+
+{{ asset_add("scripts.js", "snipcart.module.products::js/validation.js") }}
+
+{% for script in asset_scripts("scripts.js") %}
+    {{ script|raw }}
+{% endfor %}

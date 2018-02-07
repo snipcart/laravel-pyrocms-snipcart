@@ -11,7 +11,7 @@
 		  <div class="card-body">
 		    <h4 class="card-title">{{ product.name }}</h4>
 		    <p class="card-text">{{ product.description }}</p>
-		    <a href="#" class="btn btn-primary">Buy for {{ product.price.currency() }}</a>
+		    {{ product.buyButton('Buy for '~product.price.currency(), {'class': 'btn btn-primary'})|raw }}
 		  </div>
 		</div>
 	  </div>

@@ -44,7 +44,11 @@ class ProductsModuleServiceProvider extends AddonServiceProvider
      * @type array|null
      */
     protected $routes = [
-        'products' => 'Snipcart\ProductsModule\Http\Controller\ProductsController@index',
+        'webhooks/shipping' => 'Snipcart\ProductsModule\Http\Controller\ShippingController@webhook',
+        'products' => [
+            'as' => 'snipcart.module.products::products.index',
+            'uses' => 'Snipcart\ProductsModule\Http\Controller\ProductsController@index'
+        ],
         'admin/products'           => 'Snipcart\ProductsModule\Http\Controller\Admin\ProductsController@index',
         'admin/products/create'    => 'Snipcart\ProductsModule\Http\Controller\Admin\ProductsController@create',
         'admin/products/edit/{id}' => 'Snipcart\ProductsModule\Http\Controller\Admin\ProductsController@edit',
