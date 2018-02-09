@@ -33,39 +33,29 @@ class ProductPresenter extends EntryPresenter
      */
     public function buyButton($text, array $attributes = [])
     {
-    	$object = $this->object;
-    	if(array_key_exists('class', $attributes))
-    	{
-    		$attributes['class'] = $attributes['class'].' snipcart-add-item';
-    	}
-    	else
-    	{
-    		$attributes['class'] = 'snipcart-add-item';
-    	}
+        $class     = trim(array_get($attributes, 'class', '') . ' snipcart-add-item');
+        $imageType = $this->dispatch(new GetType($this->object->image)) ?: 'document';
 
-    	$attributes['data-item-id'] = $object->sku;
-    	$attributes['data-item-name'] = $object->name;
-    	$attributes['data-item-description'] = $object->description;
-    	$attributes['data-item-price'] = $object->price;
-    	$attributes['data-item-url'] = '/products';
-
-    	$type = $this->dispatch(new GetType($this->object->image)) ?: 'document';
-    	$imageUrl = $this->object->image
-            ->make('anomaly.module.files::img/types/' . $type . '.png')
+        $imageUrl = $this->object->image
+            ->make("anomaly.module.files::img/types/{$imageType}.png")
             ->cropped()->widen(100)->path();
 
-        $attributes['data-item-image'] = $imageUrl;
-
-    	$metadata = [];
-
-    	foreach ($object->tags as $tag) {
-    		$metadata[$tag] = true;
-    	}
-
-    	if(count($metadata) > 0) {
-    		$attributes['data-item-metadata'] = json_encode($metadata);
-    	}
-
-        return $this->html->link('#', $text, $attributes);
+        return $this->html->link(
+            '#',
+            $text,
+            array_merge($attributes, [
+                'class'                 => $class,
+                'data-item-id'          => $this->object->sku,
+                'data-item-name'        => $this->object->name,
+                'data-item-description' => $this->object->description,
+                'data-item-price'       => $this->object->price,
+                'data-item-url'         => '/products',
+                'data-item-image'       => $imageUrl,
+                'data-item-metadata'    => json_encode(array_combine(
+                    $this->object->tags,
+                    array_map(function ($tag) { return true; }, $this->object->tags)
+                )),
+            ])
+        );
     }
 }
